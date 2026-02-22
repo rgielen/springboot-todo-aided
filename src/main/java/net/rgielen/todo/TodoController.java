@@ -46,7 +46,7 @@ public class TodoController {
     @GetMapping
     Page<Todo> list(@RequestParam(required = false) Boolean completed, Pageable pageable) {
         if (completed != null) {
-            return repository.findByCompleted(completed, pageable);
+            return repository.findAllByCompletionStatus(completed, pageable);
         }
         return repository.findAll(pageable);
     }
