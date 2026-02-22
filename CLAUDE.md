@@ -63,9 +63,11 @@ The project supports two ways to run with a database:
 2. **Testcontainers Mode**: Running `TestSpringbootTodoAidedApplication` uses Testcontainers to provision PostgreSQL
 
 ### Testing Strategy
-- Integration tests use **Testcontainers** to spin up a real PostgreSQL instance
-- `TestcontainersConfiguration` provides a `@ServiceConnection` PostgreSQL container for tests
-- Tests automatically get a fresh database instance via Testcontainers
+- **Test-First**: Immer zuerst Tests schreiben, dann Implementierung
+- **Tests sind unveränderlich**: Bei fehlschlagenden Tests wird ausschließlich die Implementierung angepasst, niemals der Test
+- **Integrationstests**: `WebTestClient` verwenden für HTTP-basierte Tests
+- Testcontainers stellt echte PostgreSQL-Instanzen bereit
+- `TestcontainersConfiguration` liefert `@ServiceConnection` PostgreSQL-Container
 
 ### Key Dependencies
 - **Spring Data JPA**: Database access with JPA/Hibernate
