@@ -17,12 +17,3 @@ jobs:
           cache: maven
 
       - run: ./mvnw clean install
-
-  copilot-review:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - uses: github/copilot-code-review@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
