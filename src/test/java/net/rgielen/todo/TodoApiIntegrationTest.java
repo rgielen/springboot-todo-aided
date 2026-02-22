@@ -187,4 +187,51 @@ class TodoApiIntegrationTest {
                 .exchange()
                 .expectStatus().isNotFound();
     }
+
+    @Test
+    void listTodos_filterByCompleted_returnsOnlyCompletedTodos() {
+        todoRepository.save(Todo.builder().topic("Todo 1").completed(false).build());
+        todoRepository.save(Todo.builder().topic("Todo 2").completed(false).build());
+        todoRepository.save(Todo.builder().topic("Todo 3").completed(true).build());
+
+        webTestClient.get().uri("/api/todos?completed=true")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.content.length()").isEqualTo(1)
+                .jsonPath("$.totalElements").isEqualTo(1)
+                .jsonPath("$.content[0].topic").isEqualTo("Todo 3");
+    }
+
+    @Test
+    void listTodos_filterByIncomplete_returnsOnlyIncompleteTodos() {
+        todoRepository.save(Todo.builder().topic("Todo 1").completed(false).build());
+        todoRepository.save(Todo.builder().topic("Todo 2").completed(false).build());
+        todoRepository.save(Todo.builder().topic("Todo 3").completed(true).build());
+
+        webTestClient.get().uri("/api/todos?completed=false")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.content.length()").isEqualTo(2)
+                .jsonPath("$.totalElements").isEqualTo(2);
+    }
+
+    @Test
+    void listTodos_filterByCompleted_withPagination() {
+        for (int i = 0; i < 5; i++) {
+            todoRepository.save(Todo.builder().topic("Incomplete " + i).completed(false).build());
+        }
+        for (int i = 0; i < 3; i++) {
+            todoRepository.save(Todo.builder().topic("Completed " + i).completed(true).build());
+        }
+
+        webTestClient.get().uri("/api/todos?completed=false&page=0&size=2&sort=topic,asc")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.content.length()").isEqualTo(2)
+                .jsonPath("$.totalElements").isEqualTo(5)
+                .jsonPath("$.totalPages").isEqualTo(3);
+    }
 }
