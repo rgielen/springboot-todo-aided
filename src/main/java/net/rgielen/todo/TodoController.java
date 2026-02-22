@@ -1,5 +1,6 @@
 package net.rgielen.todo;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,6 +54,7 @@ public class TodoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Transactional
     @PutMapping("/{id}")
     ResponseEntity<Todo> update(@PathVariable UUID id, @Valid @RequestBody TodoRequest request) {
         return repository.findById(id)
@@ -69,6 +71,7 @@ public class TodoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable UUID id) {
         if (!repository.existsById(id)) {
