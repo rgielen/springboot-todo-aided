@@ -69,6 +69,11 @@ The project supports two ways to run with a database:
 - Testcontainers stellt echte PostgreSQL-Instanzen bereit
 - `TestcontainersConfiguration` liefert `@ServiceConnection` PostgreSQL-Container
 
+### Repository-Konventionen
+- **Keine Query Derivation**: Niemals namensbasierte Methodennamen verwenden, aus denen Spring Data die Query ableitet (z.B. `findByCompleted`)
+- **Immer `@Query`**: Für spezifische Repository-Methoden stets `@Query`-Annotation nutzen
+- **JPQL bevorzugen**, nur bei Bedarf native SQL mit `nativeQuery = true`
+
 ### Key Dependencies
 - **Spring Data JPA**: Database access with JPA/Hibernate
 - **Spring Web**: RESTful endpoints (traditional servlet-based)
