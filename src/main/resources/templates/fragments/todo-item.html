@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<li th:fragment="todo-item" th:id="'todo-' + ${todo.id}" th:classappend="${todo.completed} ? 'completed'">
+    <div class="view">
+        <input class="toggle" type="checkbox" th:checked="${todo.completed}"
+               th:attr="hx-put='/todos/' + ${todo.id} + '/toggle'" hx-target="#todo-content" hx-swap="outerHTML">
+        <label th:text="${todo.topic}" ondblclick="editTodo(this)"></label>
+        <button class="destroy" th:attr="hx-delete='/todos/' + ${todo.id}"
+                hx-target="closest li" hx-swap="delete"></button>
+    </div>
+    <input class="edit" th:value="${todo.topic}"
+           th:attr="hx-put='/todos/' + ${todo.id}" hx-trigger="keyup[key=='Enter']"
+           hx-target="closest li" hx-swap="outerHTML" name="topic"
+           onkeyup="if(event.key==='Escape') cancelEdit(this)"
+           onblur="cancelEdit(this)">
+</li>
+</body>
+</html>

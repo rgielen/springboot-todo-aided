@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+    <link rel="stylesheet" th:href="@{/css/todo.css}">
+    <script th:src="@{/webjars/htmx.org/2.0.4/dist/htmx.min.js}"></script>
+</head>
+<body>
+<section class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <div th:replace="~{fragments/header :: input}"></div>
+    </header>
+    <div th:replace="~{fragments/todo-list :: todo-content}"></div>
+</section>
+<footer class="info">
+    <p>Double-click to edit a todo</p>
+</footer>
+<script th:src="@{/js/todo.js}"></script>
+</body>
+</html>

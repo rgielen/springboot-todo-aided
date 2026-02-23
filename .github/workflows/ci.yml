@@ -16,4 +16,7 @@ jobs:
           java-version: '25'
           cache: maven
 
+      - name: Install Playwright browsers
+        run: ./mvnw exec:java -D"exec.mainClass=com.microsoft.playwright.CLI" -D"exec.args=install --with-deps chromium" -D"exec.classpathScope=test"
+
       - run: ./mvnw clean install
