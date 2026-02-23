@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="todo-content" id="todo-content">
+    <section class="main" th:classappend="${todos.isEmpty()} ? 'hidden'">
+        <div id="toggle-all-container">
+            <input id="toggle-all" class="toggle-all" type="checkbox" th:checked="${allCompleted}"
+                   hx-post="/todos/toggle-all" hx-target="#todo-content" hx-swap="outerHTML">
+            <label for="toggle-all">Mark all as complete</label>
+        </div>
+        <ul id="todo-list" class="todo-list">
+            <th:block th:each="todo : ${todos}">
+                <li th:replace="~{fragments/todo-item :: todo-item}"></li>
+            </th:block>
+        </ul>
+    </section>
+    <footer id="footer" class="footer" th:classappend="${totalCount == 0} ? 'hidden'">
+        <span class="todo-count">
+            <strong th:text="${activeCount}"></strong>
+            <span th:text="${activeCount == 1} ? ' item left' : ' items left'"></span>
+        </span>
+        <ul class="filters">
+            <li><a href="#" data-filter="all" class="filter-link selected"
+                   hx-get="/todos?filter=all" hx-target="#todo-content" hx-swap="outerHTML">All</a></li>
+            <li><a href="#" data-filter="active" class="filter-link"
+                   hx-get="/todos?filter=active" hx-target="#todo-content" hx-swap="outerHTML">Active</a></li>
+            <li><a href="#" data-filter="completed" class="filter-link"
+                   hx-get="/todos?filter=completed" hx-target="#todo-content" hx-swap="outerHTML">Completed</a></li>
+        </ul>
+        <button class="clear-completed" th:classappend="${completedCount == 0} ? 'hidden'"
+                hx-post="/todos/clear-completed" hx-target="#todo-content" hx-swap="outerHTML">
+            Clear completed
+        </button>
+    </footer>
+</div>
+</body>
+</html>

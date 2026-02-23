@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<form id="todo-form" th:fragment="input" hx-post="/todos" hx-target="#todo-content" hx-swap="outerHTML"
+      hx-on::after-request="if(event.detail.successful) this.reset()">
+    <input class="new-todo" name="topic" placeholder="What needs to be done?" autofocus autocomplete="off">
+</form>
+</body>
+</html>
